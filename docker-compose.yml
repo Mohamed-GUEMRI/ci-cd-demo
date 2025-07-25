@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  app_b:
+    build: ./app_b
+    container_name: app_b
+    ports:
+      - "5001:5001"
+
+  app_a:
+    build: ./app_a
+    container_name: app_a
+    ports:
+      - "5000:5000"
+    depends_on:
+      - app_b
