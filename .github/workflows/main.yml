@@ -1,0 +1,28 @@
+name: CI-CD Demo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build App B
+        run: docker build -t app_b:latest ./app_b
+
+      - name: Build App A
+        run: docker build -t app_a:latest ./app_a
+
+      - name: Run docker-compose test
+        run: |
+          docker compose up -d
+          sleep 5
+          curl --fail http://localhost:5000
